@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/protected/(.*)([gif|jpe?g|png|bmp])$
+RewriteRule ^(.*) /wm.php?src=$1 [L]
+

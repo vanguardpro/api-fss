@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Image Watermark Script in PHP and JavaScript</title>
+<link rel="stylesheet" href="http://www.rainbodesign.com/plainpage.css" type="text/css" />
+<!--[if IE]><link rel="stylesheet" href="http://www.rainbodesign.com/styles_ie.css" type="text/css" /><![endif]-->
+<link rel="stylesheet" href="watermark.css" type="text/css" />
+<link rel="canonical" href="http://www.rainbodesign.com/pub/watermark/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Free scripts to add watermarks to images using PHP, Perl, and JavaScript." />
+<meta name="keywords" content="watermark, images, php, perl, javascript, script, tutorial, CSS, positioning, HTML, examples, download" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<script type="text/javascript" src="rdWatermark.js"></script>
+<style type="text/css">
+
+h1 { text-shadow:2px 2px 2px #40c040; }
+
+#mainContent { position:relative; top:0; left:0; width:100%; z-index:1; }
+#bodyContent { position:relative; top:0px; left:0; margin-left:20px; margin-right:210px; padding:5px; min-height:500px;
+               background-color:#ffffe0; border:solid 1px black; z-index:10; }
+#pubLinksBox { z-index:100; }
+
+</style>
+<!-- 12/15/10 RLT -->
+</head>
+<body onload="rdClassWatermark('wmBox');">
+<div id="pubLinksBox"><!--#include virtual="../publinks.html" --><br /><!--#include virtual="../../bookmarks.html" --></div>
+<div id="mainContent">
+<p style="text-align:center; margin:0;"><a href="http://www.rainbodesign.com/" title="Custom Web Design by Rainbo Design"><img src="http://www.rainbodesign.com/pics/rainbodesign.jpg" width="400" height="55" border="0" alt="Custom Web Design by Rainbo Design" /></a><br />
+</p>
+<br />
+<div id="bodyContent">
+<h1 align="center">Watermarking Images using PHP, GD,<br />ImageMagick and JavaScript</h1>
+<p style="float:left; margin:4px; text-align:center; font-size:9px; font-weight:bold;"><img src="http://www.rainbodesign.com/pub/watermark/images/slide1.jpg" width="384" height="256" alt="sunset slide image" /><br />
+Original Image - No Watermark<br />
+</p>
+<p class="stdtext">The level of theft of images on the Internet behooves website designers to consider adding
+watermarks to their best images.  It's easy enough to add a watermark using even the simplest graphics editing
+programs on PCs and Macs, but automated solutions are simpler and, obviously, more flexible as
+they don't require the webmaster to edit each new image they add to their websites as a part of the
+design process.  Even a batch watermarking tool takes extra effort on your part.  The free scripts presented here
+rely on PHP to manipulate your original image by drawing text over them that displays your
+custom watermark.  Each script here presents a slightly different method so that you'll have a
+watermarking method available no matter what hosting environment you have for your website.  The
+scripts do not modify the original image files.  All you have to do to watermark your images
+is to point your &lt;img&gt; tags at one of these scripts instead of directly at the image files.  The
+script then creates a composite image that includes your custom message for display on your webpage.
+</p>
+<p class="stdtext">We start with our original image shown here.  There's nothing remarkable about this particular image,
+but let's assume that we'd rather not have other websites use this image
+without our permission.  We can use some hotlinking prevention methods, but watermarking
+it means that if anyone else uses the image, they'll either have to crop out our watermark
+or advertise our ownership of it.  The example scripts presented here all add a copyright symbol
+and additional text as a watermark, but you can change them to show whatever you like.<br style="clear:left;" />
+</p>
+<p style="text-align:center;">
+<a href="#wm_gd">[Watermark Using GD]</a>&nbsp;
+<a href="#wm_im">[Watermark Using ImageMagick]</a>&nbsp;
+<a href="#wm_js">[Watermark Using JavaScript]</a>&nbsp;
+<a href="#wm_auto">[Automatic Watermarks]</a>&nbsp;
+</p>
+<hr />
+<a name="wm_gd"></a>
+<h2 align="center">PHP Image Watermark Using GD Library</h2>
+<p style="float:right; margin:6px; text-align:center; font-size:9px; font-weight:bold;"><img src="http://www.rainbodesign.com/pub/watermark/wm.php?src=images/slide1.jpg&amp;color=white&amp;pos=top&amp;size=10&op=90" width="384" height="256" alt="watermarked sunset slide image" /><br />
+Example Text Message Watermark Using GD<br />
+</p>
+<p class="stdtext">Most hosting services offer PHP programming support, including the GD
+graphics packages, so we'll start there.  The package you can download using the button
+below includes the PHP script &quot;wm.php&quot;.  All it takes is replacing the &quot;src&quot;
+parameter in the &lt;img&gt; tag with the URL for the PHP script, including the parameters
+&quot;src&quot; which contains the path to the original image file, and &quot;color&quot; to
+select the color for the font.  The script also supports a &quot;size&quot; parameter to
+specify the font size, and &quot;pos&quot; to specify displaying the watermark at the &quot;top&quot;
+or &quot;bottom&quot; of the image.  Using that script to display
+the same image with the watermark setting the &quot;src&quot; attribute to
+<span style="font-weight:bold;">&quot;wm.php?src=images/slide1.jpg&amp;color=white&amp;pos=top&amp;size=9&quot;</span>, we get
+the resulting image shown on the right.<br />
+<br clear="all" />
+</p>
+<p style="float:left; margin:6px; text-align:center; font-size:9px; font-weight:bold;">
+<img src="http://www.rainbodesign.com/pub/watermark/wm.php?src=images/slide2.jpg&type=img&pos=bottom&rot=90&wmsize=2&op=70" width="384" height="256" alt="watermarked sunset slide image" /><br />
+Example Image Logo Watermark Using GD<br />
+</p>
+<p class="stdtext">Of course, with a complete graphics toolbox library at our fingertips, we aren't limited
+to simply drawing text.  We can also overlay our logo graphic onto our images to create an attractive
+watermark.  This is done using the PHP function &quot;imagecopymerge&quot; which not only handles the combining
+of the two images, it also has an opacity setting so that the logo can be translucent and allow details of
+the original image to be visible.  You can also control the size of the watermarking image.  This example uses
+the same graphic that appears at the top of this page, reduced to half it's normal size.  And, as you can see,
+the watermark image can be rotated to make it more attractive, or simply less obtrusive.  These options
+can be set on each individual image through the query string options used when calling the script.  Try my
+<a href="watermark-demo.html">PHP Watermark Demo</a> page to see how many of the possible options on this
+script work.
+</p>
+<p class="stdtext">There is a button at the bottom of this page where you can <a href="#dl">Download This Code</a>
+</p>
+<br style="clear:both;" />
+<hr />
+<a name="wm_im"></a>
+<h2 align="center">PHP Image Watermark Using ImageMagick</h2>
+<p style="float:left; margin:6px; text-align:center; font-size:9px; font-weight:bold;"><img src="http://www.rainbodesign.com/pub/watermark/wm_magick.php?src=images/slide1.jpg&amp;color=gold&amp;pos=top&amp;size=14" width="384" height="256" alt="watermarked sunset slide image" /><br />
+Example Image Watermark Using ImageMagick<br />
+</p>
+<p class="stdtext">When it's available, ImageMagick provides a host of powerful tools to manipulate images.  Here we're
+simply using it to annotate the image with our watermark.  The PHP code I use makes direct calls on the ImageMagick
+commands, so it works without requiring the ImageMagick interfaces like IMagick or MagickWand.  It supports two of the
+commands from the GD Library version for message watermarks so you can control the output for each image that you use.  Future
+versions will support more of the GD version options.
+</p>
+<p class="stdtext">There is a button at the bottom of this page where you can <a href="#dl">Download This Code</a>
+</p>
+
+<br style="clear:both;" />
+<br />
+<hr />
+<a name="wm_auto"></a>
+<h2 align="center">Automatic Image Watermark with .htaccess</h2>
+<p class="stdtext">While having these tools available is handy, unless you take some additional
+steps, you have to use a direct call to the watermarking script in every &lt;img&gt; tag on
+your pages, which scrapers and hotlink mavens can easily decipher and extract the direct URL
+for the original image file.  So I suggest that you put all of the image files that you want
+to protect into a special directory on your site.  This allows you to intercept HTTP requests
+for these files and reroute them through the watermarking script you select - automatically and
+invisibly.  The following instructions should do the trick:
+</p>
+<div style="width:90%; margin-left:5%; margin-bottom:3px; padding:4px; background-color:lightblue; font-family:courier new,courier,fixed; font-size:12px;">
+RewriteEngine On<br />
+RewriteCond %{REQUEST_URI} ^/protected/(.*)([gif|jpe?g|png|bmp])$<br />
+RewriteRule ^(.*) /wm.php?src=$1 [L]<br />
+</div>
+<p class="stdtext">Just replace &quot;protected&quot; with the name of the directory where your
+website's image files are located, and install wm.php in the root directory for your website.
+</p>
+<p class="stdtext">You can add additional parameters to the query string in the last line of the
+above code, but it's simpler to just change the default settings in the script files.  With this
+instruction in place, you can use the direct URLs in your &lt;img&gt; tags and the watermark will
+be added automatically.
+</p>
+<br />
+<hr />
+<a name="wm_js"></a>
+<h2 align="center">Watermarking in JavaScript with CSS</h2>
+<div style="float:right;"><!-- enclosing DIV for style here -->
+<div class="wmBox firstImage" id="wmBox1" style="margin:6px;">
+<img class="wmImg" id="wmImg1" src="images/slide1.jpg" width="384" height="256" alt="no watermark sunset slide image" /><br />
+</div><!-- end wmBox1 -->
+</div><!-- end enclosing DIV -->
+<p class="stdtext">True watermarking in Javascript is actually impossible, since JavaScript lacks the capability of
+creating or manipulating images the way PHP or Perl can.  What we can do is to use it to create a watermark
+via HTML and CSS using the z-index function, the same way I did for captions in my
+<a href="http://www.rainbodesign.com/pub/slideshow/">slideshow script</a>.
+</p>
+<p class="stdtext">The obvious drawback to the JavaScript method is that it only works on the pages on
+your site where the code has been installed.  If another website hotlinks to your images, the watermark will not appear.  The
+only benefit is that the images will appear to be watermarked, and that might discourage hotlinking or copying.<br clear="all" />
+</p>
+<div style="float:left;"><!-- enclosing DIV for style here -->
+<div class="secondImage wmBox" id="wmBox2" style="margin:6px;">
+<img class="wmImg" id="wmImg2" src="images/slide2.jpg" width="384" height="256" alt="no watermark slide image" /><br />
+</div><!-- end wmBox2 -->
+</div><!-- end enclosing DIV -->
+<p class="stdtext">The script works by scanning your HTML document at onLoad() time to detect all
+&lt;DIV&gt;s with a class attribute set to &quot;wmBox&quot;.  That's why this method includes two example images.  The
+JavaScript script then automatically adds our watermark text in an appropriate location on each image
+in a DIV that overlays the image in a higher z-index layer.  Just be sure to include the CSS settings
+file &quot;watermark.css&quot;, or copy the contents into your own stylesheet.
+</p>
+<p class="stdtext">As it exists, the script will only display text.  But it's capable of using an image as a
+watermark as well.  With some modification to the stylesheet, you could add transparency or other visual effects.  You
+can download the script with documentation by pressing the &quot;Download&quot; button below.<br clear="all" />
+</p>
+<br />
+<hr />
+<br />
+<a name="dl"></a>
+<div id="dlBox">
+<p class="stdtext">The Image Watermark Scripts package is provided free of
+charge.  All I ask is that if you use this software, please place the following link on your site:<br />
+</p>
+<p style="text-align:center; font-weight:bold;">&lt;a href=&quot;http://www.rainbodesign.com/pub/&quot;&gt;Rainbo Design's Scripts and Tools for Webmasters&lt;/a&gt;<br />
+</p>
+<br />
+<form method="post" action="javascript:document.location=('http://www.rainbodesign.com/cgi-bin/clickLink.cgi?new_Page=http://www.rainbodesign.com/pub/watermark/watermark.zip&amp;from_Page=watermark/index.html');" name="getArchive">
+<p id="dlButton" style="width:450px;">&nbsp;<a href="#" onclick="document.forms.getArchive.submit(); return false;">Download Image Watermarking Package</a>&nbsp;
+</p>
+</form>
+<noscript><p><b>NOTE:</b> You must enable JavaScript in your browser to download the script package.</p></noscript>
+<br />
+</div><!-- end dlBox -->
+
+<br />
+</div><!-- end bodyContent -->
+<br style="clear:both;" />
+<div id="status"></div>
+<hr />
+<p class="smalltext"><a href="http://www.rainbodesign.com/pub/">Click here</a> to return to the Rainbo Design Scripts and Tutorials menu.<br />
+<br />
+<b>The software on this page Copyright (C) 2003-2010 by Richard L. Trethewey.  All rights reserved.</b><br />
+</p>
+<address>
+<a href="http://www.rainbodesign.com/contact.html"><img src="http://static.rainbodesign.com/pics/mailicon.jpg" width="36" height="36" alt="" align="left" border="0" />Comments or Questions?<br />
+Contact Rainbo Design</a>
+<img src="/cgi-bin/imgCount.cgi?file=pics/spacer.gif&amp;page=pub/watermark/index.html" alt="" />
+</address>
+<br />
+</div><!-- end mainContent -->
+</body>
+</html>
+

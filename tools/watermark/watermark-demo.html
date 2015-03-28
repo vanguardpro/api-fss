@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Image Watermark Demonstration - Rainbo Design Scripts &amp; Tutorials</title>
+<link rel="stylesheet" href="http://www.rainbodesign.com/plainpage.css" type="text/css" />
+<!--[if IE]><link rel="stylesheet" href="http://www.rainbodesign.com/styles_ie.css" type="text/css" /><![endif]-->
+<link rel="stylesheet" href="watermark.css" type="text/css" />
+<link rel="canonical" href="http://www.rainbodesign.com/pub/watermark/watermark-demo.html" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Demonstration of Rainbo Design's PHP Image Watermarking script." />
+<meta name="keywords" content="watermark, images, php, script, tutorial, CSS, positioning, HTML, examples" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<style type="text/css">
+
+h1 { text-shadow:2px 2px 2px #40c040; }
+
+#mainContent { position:relative; top:0; left:0; width:100%; z-index:1; }
+#bodyContent { position:relative; top:0px; left:0; margin-left:20px; margin-right:210px; padding:5px; min-height:500px;
+               background-color:#ffffe0; border:solid 1px black; z-index:10; }
+#pubLinksBox { z-index:100; }
+
+#demoForm select { font-size:10px; }
+.formLabel { font-size:11px; font-weight:bold; }
+.textOption { display:table-cell; }
+.imgOption { display:none; }
+
+.cell { display:table-cell; }
+.notCell { display:none; }
+
+</style>
+<script type="text/javascript">
+
+document.getElementsByClassName = function(cl) {
+var retnode = [];
+var myclass = new RegExp('\\b'+cl+'\\b');
+var elem = this.getElementsByTagName('*');
+for (var i = 0; i < elem.length; i++) {
+var classes = elem[i].className;
+if (myclass.test(classes)) retnode.push(elem[i]);
+}
+return retnode;
+}; 
+
+function showHide() {
+  theForm = document.forms['demoForm'];
+  myType = theForm.type.options[theForm.type.selectedIndex].value;
+
+   if (myType == 'img') {
+     el = document.getElementsByClassName('textOption');
+      for (i=0; i<el.length; i++) {
+         el[i].style.display = 'none';
+      }
+     el = document.getElementsByClassName('imgOption');
+      for (i=0; i<el.length; i++) {
+         el[i].style.display = 'table-cell';
+      }
+     } else {
+     el = document.getElementsByClassName('imgOption');
+      for (i=0; i<el.length; i++) {
+         el[i].style.display = 'none';
+      }
+     el = document.getElementsByClassName('textOption');
+      for (i=0; i<el.length; i++) {
+         el[i].style.display = 'table-cell';
+      }
+   } // endif myType
+ } // end showHide
+
+function changecss(myclass,element,value) {
+	var CSSRules
+	if (document.all) {
+		CSSRules = 'rules'
+	}
+	else if (document.getElementById) {
+		CSSRules = 'cssRules'
+	}
+  for (j=0; j < document.styleSheets.length; j++) {
+	for (var i = 0; i < document.styleSheets[j][CSSRules].length; i++) {
+		if (document.styleSheets[j][CSSRules][i].selectorText == myclass) {
+			document.styleSheets[j][CSSRules][i].style[element] = value
+		}
+	}
+   } // end for j
+} // end changecss()
+
+</script>
+<!-- 11/23/10 RLT -->
+</head>
+<body>
+<div id="pubLinksBox"><!--#include virtual="../publinks.html" --><br /><!--#include virtual="../../bookmarks.html" --></div>
+<div id="mainContent">
+<p style="text-align:center; margin:0;"><a href="http://www.rainbodesign.com/" title="Custom Web Design by Rainbo Design"><img src="http://www.rainbodesign.com/pics/rainbodesign.jpg" width="400" height="55" border="0" alt="Custom Web Design by Rainbo Design" /></a><br />
+</p>
+<br />
+<div id="bodyContent">
+<h1 align="center">Demonstration of Rainbo Design's Image Watermark Script</h1>
+<p class="stdtext">This page lets you change the options available with my
+image watermarking script to see how they affect the results.  The options
+are all passed to the script using the Query String.  Change any of the options
+shown and then press the &quot;Show Watermark&quot; button to update the image.
+</p>
+<p class="stdtext">Note that when you rotate watermarks on servers like mine which are
+still running older versions of PHP (prior to v5.1), a background may be generated that can be ugly.
+See the documentation for help with this issue.  The general solution is to rotate in increments of
+90 degrees, or upgrade to a more recent version of PHP.
+</p>
+<div style="width:384px; margin:2px auto;">
+<iframe width="384" height="256" src="images/slide2.jpg" scrolling="no" frameborder="0" id="demo" name="demo"></iframe>
+</div>
+<form method="get" action="wm.php" target="demo" id="demoForm" name="demoForm">
+<input type="hidden" name="src" value="images/slide2.jpg" />
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr>
+<td valign="top" align="center">
+<p class="formLabel">Type</p>
+<select name="type" size="1" onchange="showHide();">
+<option value="msg" selected="selected">Text</option>
+<option value="img">Image</option>
+</select><br />
+</td>
+<td valign="top" align="center">
+<p class="formLabel">Position</p>
+<select name="pos" size="1">
+<option value="top">Top</option>
+<option value="bottom" selected="selected">Bottom</option>
+</select><br />
+</td>
+<td valign="top" align="center" class="textOption">
+<p class="formLabel">Font Size</p>
+<select name="size" size="1">
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11" selected="selected">11</option>
+<option value="12">12</option>
+<option value="14">14</option>
+<option value="16">16</option>
+<option value="20">20</option>
+</select><br />
+</td>
+<td valign="top" align="center" class="textOption">
+<p class="formLabel">Font Color</p>
+<select name="color" size="1">
+<option value="white" selected="selected">White</option>
+<option value="black">Black</option>
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+<option value="red">Red</option>
+</select><br />
+</td>
+<td valign="top" align="center" class="textOption">
+<p class="formLabel">Background</p>
+<select name="bg" size="1">
+<option value="0" selected="selected">No</option>
+<option value="1">Yes</option>
+</select><br />
+</td>
+<td valign="top" align="center" class="imgOption">
+<p class="formLabel">Image Size</p>
+<select name="wmsize" size="1">
+<option value="4">1/4</option>
+<option value="3" selected="selected">1/3</option>
+<option value="2">1/2</option>
+<option value="1">Full Size</option>
+</select><br />
+</td>
+<td valign="top" align="center">
+<p class="formLabel">Rotate</p>
+<select name="rot" size="1">
+<option value="0" selected="selected">No</option>
+<option value="45">45&deg;</option>
+<option value="90">90&deg;</option>
+<option value="180">180&deg;</option>
+<option value="225">225&deg;</option>
+<option value="270">270&deg;</option>
+<option value="315">315&deg;</option>
+</select><br />
+</td>
+<td valign="top" align="center">
+<p class="formLabel">Opacity</p>
+<select name="op" size="1">
+<option value="100" selected="selected">100%</option>
+<option value="90">90%</option>
+<option value="80">80%</option>
+<option value="70">70%</option>
+<option value="60">60%</option>
+<option value="50">50%</option>
+<option value="40">40%</option>
+<option value="30">30%</option>
+</select><br />
+</td>
+
+</tr>
+</table>
+<p style="text-align:center;"><input type="submit" value="Show Watermark"></p>
+</form>
+<br />
+
+<a name="dl"></a>
+<div id="dlBox">
+<p class="stdtext">The Image Watermark Scripts package is provided free of
+charge.  All I ask is that if you use this software, please place the following link on your site:<br />
+</p>
+<p style="text-align:center; font-weight:bold;">&lt;a href=&quot;http://www.rainbodesign.com/pub/&quot;&gt;Rainbo Design's Scripts and Tools for Webmasters&lt;/a&gt;<br />
+</p>
+<br />
+<form method="post" action="javascript:document.location=('http://www.rainbodesign.com/cgi-bin/clickLink.cgi?new_Page=http://www.rainbodesign.com/pub/watermark/watermark.zip&amp;from_Page=watermark/index.html');" name="getArchive">
+<p id="dlButton" style="width:450px;">&nbsp;<a href="#" onclick="document.forms.getArchive.submit(); return false;">Download Image Watermarking Package</a>&nbsp;
+</p>
+</form>
+<noscript><p><b>NOTE:</b> You must enable JavaScript in your browser to download the script package.</p></noscript>
+<br />
+</div><!-- end dlBox -->
+
+<br />
+</div><!-- end bodyContent -->
+<br style="clear:both;" />
+<div id="status"></div>
+<hr />
+<p class="smalltext"><a href="http://www.rainbodesign.com/pub/">Click here</a> to return to the Rainbo Design Scripts and Tools menu.<br />
+<br />
+<b>The software on this page Copyright (C) 2003-2010 by Richard L. Trethewey.  All rights reserved.</b><br />
+</p>
+<address>
+<a href="http://www.rainbodesign.com/contact.html"><img src="http://static.rainbodesign.com/pics/mailicon.jpg" width="36" height="36" alt="" align="left" border="0" />Comments or Questions?<br />
+Contact Rainbo Design</a>
+<img src="/cgi-bin/imgCount.cgi?file=pics/spacer.gif&amp;page=pub/watermark/watermark-demo.html" alt="" />
+</address>
+<br />
+</div><!-- end mainContent -->
+</body>
+</html>
+
